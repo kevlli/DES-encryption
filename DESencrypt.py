@@ -60,12 +60,9 @@ def encrypt(plaintext, key):
     klist = []
     for i in range(0,16):
         subkey = klistc[i] + klistd[i]
-
-        print(subkey) #subkey before permutation
-        
-    #    subkey = permutation(subkey, pc2)
-    #    klist.append(subkey)
-    #    print(klist[i])
+        subkey = permutation(subkey, pc2)
+        klist.append(subkey)
+        print(klist[i])
 
 
 def permutation(string, ptable):
