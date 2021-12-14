@@ -5,7 +5,7 @@ ip = [58, 50, 42, 34, 26, 18, 10, 2, 60, 52, 44,
     61, 53, 45, 37, 29, 21, 13, 5, 63, 55, 47, 39, 31,
     23, 15, 7]
 
-# M = "0000000100100011010001010110011110001001101010111100110111101111"
+M = "0000000100100011010001010110011110001001101010111100110111101111"
 
 
 def initialperm(text):
@@ -14,6 +14,12 @@ def initialperm(text):
         newtext += text[ip[x] - 1]
     return newtext
 
+def split(text):
+    x = len(text)/2
+    halves = [text[0:x], text[x]]
+    return halves
+
+new = split(M)
 
 #print(len(ip))
 #print(initialperm(M))

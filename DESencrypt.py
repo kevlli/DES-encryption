@@ -19,6 +19,13 @@ pc2 = [14,    17,   11,    24,     1,    5,
     44,    49,   39,    56,    34,   53,
     46,    42,   50,    36,    29,   32]
 
+ip = [58, 50, 42, 34, 26, 18, 10, 2, 60, 52, 44,
+    36, 28, 20, 12, 4, 62, 54, 46, 38, 30, 22, 14,
+    6, 64, 56, 48, 40, 32, 24, 16, 8, 57, 49, 41,
+    33, 25, 17, 9, 1, 59, 51, 43, 35, 27, 19, 11, 3,
+    61, 53, 45, 37, 29, 21, 13, 5, 63, 55, 47, 39,
+    31, 23, 15, 7]
+
 def encrypt(plaintext, key):
     key1 = permutation(key, pc1)
     c0 = ""
@@ -38,21 +45,17 @@ def encrypt(plaintext, key):
     for i in range(0, 16):
         if i == 0:
             klistc.append(leftshift(c0))
+            klistd.append(leftshift(d0))
         else:
             klistc.append(leftshift(klistc[i - 1]))
+            klistd.append(leftshift(klistd[i - 1]))
             if shifts[i] == 2:
                 klistc[i] = leftshift(klistc[i])
+                klistd[i] = leftshift(klistd[i])
     #for i in range(len(klistc)):
         #print (klistc[i])
         #print ("")
 
-    for i in range(0, 16):
-        if i == 0:
-            klistd.append(leftshift(d0))
-        else:
-            klistd.append(leftshift(klistd[i - 1]))
-            if shifts[i] == 2:
-                klistd[i] = leftshift(klistd[i])
     #for i in range(len(klistd)):
         #print (klistd[i])
         #print ("")
