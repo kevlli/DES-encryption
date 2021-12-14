@@ -1,4 +1,4 @@
-#encrypt('a', "0001001100110100010101110111100110011011101111001101111111110001")
+
 
 #pc1 = [57, 49, 41, 33, 25, 17, 9, 1, 58, 50, 42, 34, 26, 18, 10, 2, 49, 51, 43, 35, 27, 1911     3   60    52    44   36
 pc1 = [57,   49,    41,   33,    25,    17,    9,
@@ -53,19 +53,18 @@ def encrypt(plaintext, key):
                 klistc[i] = leftshift(klistc[i])
                 klistd[i] = leftshift(klistd[i])
     #for i in range(len(klistc)):
-        #print (klistc[i])
-        #print ("")
+    #    print (klistc[i])
+    #    print ("")
+    #    print (klistd[i])
+    #    print("")
 
-    #for i in range(len(klistd)):
-        #print (klistd[i])
-        #print ("")
 
     klist = []
     for i in range(0,16):
         subkey = klistc[i] + klistd[i]
         subkey = permutation(subkey, pc2)
         klist.append(subkey)
-        print(klist[i])
+    #    print(klist[i])
 
 
 def permutation(string, ptable):
@@ -88,4 +87,4 @@ def leftshift(string):
 permutation("11100001100110010101010111111010101011001100111100011110",pc2)
     
         
-    
+encrypt('a', "0001001100110100010101110111100110011011101111001101111111110001")
