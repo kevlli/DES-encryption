@@ -26,11 +26,19 @@ ip = [58, 50, 42, 34, 26, 18, 10, 2, 60, 52, 44,
     61, 53, 45, 37, 29, 21, 13, 5, 63, 55, 47, 39,
     31, 23, 15, 7]
 
+ebit = [32,     1,    2,     3,     4,    5,
+                  4,     5,    6,     7,     8,    9,
+                  8,     9,   10,    11,    12,   13,
+                 12,    13,   14,    15,    16,   17,
+                 16,    17,   18,    19,    20,   21,
+                 20,    21,   22,    23,    24,   25,
+                 24,    25,   26,    27,    28,   29,
+                 28,    29,   30,    31,    32,    1]
 def encrypt(plaintext, key):
     key1 = permutation(key, pc1)
     c0 = ""
     d0 = ""
-    for i in range(0, len(key1)):
+    for i in range(len(key1)):
         if (i < len(key1) / 2):
             c0 += key1[i]
         else:
@@ -42,7 +50,7 @@ def encrypt(plaintext, key):
     klistc = []
     klistd = []
     shifts = [1,1,2,2,2,2,2,2,1,2,2,2,2,2,2,1]
-    for i in range(0, 16):
+    for i in range(16):
         if i == 0:
             klistc.append(leftshift(c0))
             klistd.append(leftshift(d0))
@@ -60,16 +68,29 @@ def encrypt(plaintext, key):
 
 
     klist = []
-    for i in range(0,16):
+    for i in range(16):
         subkey = klistc[i] + klistd[i]
         subkey = permutation(subkey, pc2)
         klist.append(subkey)
-    #    print(klist[i])
+        #print(klist[i])
+
+    #Step 2
+    plainip = permutation(plaintext, ip)
+    #print(plainip)
+    #divide into two halve
+    ipL = [plainip[:(int)(len(plainip)/2)]]
+    ipR = [plainip[(int)(len(plainip)/2):]]
+    print(ipL[0])
+    print(ipR[0])
+    for i in range (16):
+        #ipL.append(ipR[i])
+        #ipR.append(ipL[i] ^(klist[i] ^ permutation(ipR[i], ebit)))
+        
 
 
 def permutation(string, ptable):
     pstring = ""
-    for i in range(0,len(ptable)):
+    for i in range(len(ptable)):
         #python starts at 0, table starts at 1, so subtract 1
         pstring += string[ptable[i] - 1]
     return pstring
@@ -84,7 +105,13 @@ def leftshift(string):
             newstring += string[i + 1]
     return (newstring)
 
+def functionf(text, key):
+    expandedtext = permutation(text, ebit)
+    xored = key ^ expandedtext
+    compacted = ""
+    
+    
 permutation("11100001100110010101010111111010101011001100111100011110",pc2)
     
         
-encrypt('a', "0001001100110100010101110111100110011011101111001101111111110001")
+encrypt('0000000100100011010001010110011110001001101010111100110111101111', "0001001100110100010101110111100110011011101111001101111111110001")
