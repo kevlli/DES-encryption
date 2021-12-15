@@ -1,6 +1,4 @@
 
-
-#pc1 = [57, 49, 41, 33, 25, 17, 9, 1, 58, 50, 42, 34, 26, 18, 10, 2, 49, 51, 43, 35, 27, 1911     3   60    52    44   36
 pc1 = [57,   49,    41,   33,    25,    17,    9,
     1,   58,    50,   42,    34,    26,   18,
     10,    2,    59,   51,    43,    35,   27,
@@ -28,15 +26,12 @@ ip = [58, 50, 42, 34, 26, 18, 10, 2, 60, 52, 44,
 
 def encrypt(plaintext, key):
     key1 = permutation(key, pc1)
-    c0 = ""
-    d0 = ""
-    for i in range(0, len(key1)):
-        if (i < len(key1) / 2):
-            c0 += key1[i]
-        else:
-            d0 += key1[i]
-    #print (c0)
-    #print (d0)
+    slist = split(key1)
+    c0 = slist[0]
+    d0 = slist[1]
+
+    print (c0)
+    print (d0)
     
     
     klistc = []
@@ -59,13 +54,21 @@ def encrypt(plaintext, key):
     #    print("")
 
 
+    
+    print("keys:")
     klist = []
     for i in range(0,16):
         subkey = klistc[i] + klistd[i]
         subkey = permutation(subkey, pc2)
         klist.append(subkey)
-    #    print(klist[i])
-
+        #print keys
+        print(klist[i])
+        
+    print("ip permutated plaintext:")
+    plaintext1 = permutation(plaintext, ip)
+    print(plaintext1)
+    print("split plaintext:")
+    print(split(plaintext1))
 
 def permutation(string, ptable):
     pstring = ""
@@ -84,7 +87,13 @@ def leftshift(string):
             newstring += string[i + 1]
     return (newstring)
 
-permutation("11100001100110010101010111111010101011001100111100011110",pc2)
-    
-        
-encrypt('a', "0001001100110100010101110111100110011011101111001101111111110001")
+def split(string):
+    slist = ["",""]
+    for i in range(0, len(string)):
+        if (i < len(string) / 2):
+            slist[0] += string[i]
+        else:
+            slist[1] += string[i]
+    return slist
+
+encrypt("0001001100110100010101110111100110011011101111001101111111110001", "0001001100110100010101110111100110011011101111001101111111110001")
