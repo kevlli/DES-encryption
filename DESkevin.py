@@ -34,6 +34,14 @@ ebit = [32,     1,    2,     3,     4,    5,
                  20,    21,   22,    23,    24,   25,
                  24,    25,   26,    27,    28,   29,
                  28,    29,   30,    31,    32,    1]
+
+s1 = [  [14,  4,  13,  1,   2, 15,  11,  8,   3, 10,   6, 12,   5,  9,   0,  7],
+        [0, 15,   7,  4,  14,  2,  13,  1,  10,  6,  12, 11,   9,  5,   3,  8],
+        [4,  1,  14,  8,  13,  6,   2, 11,  15, 12,   9,  7,   3, 10,   5, 0],
+        [15, 12,   8,  2,   4,  9,   1,  7,   5, 11,   3, 14,  10,  0,   6, 13]
+        ]
+
+
 def encrypt(plaintext, key):
     key1 = permutation(key, pc1)
     c0 = ""
@@ -82,7 +90,7 @@ def encrypt(plaintext, key):
     ipR = [plainip[(int)(len(plainip)/2):]]
     print(ipL[0])
     print(ipR[0])
-    for i in range (16):
+    #for i in range (16):
         #ipL.append(ipR[i])
         #ipR.append(ipL[i] ^(klist[i] ^ permutation(ipR[i], ebit)))
         
@@ -110,8 +118,15 @@ def functionf(text, key):
     xored = key ^ expandedtext
     compacted = ""
     
+def sbox(text, s):
+    row = int(text[0]) * 2 + int(text[5])
+    column = int(text[1]) * 8 + int(text[2]) * 4 + int(text[3]) * 2 + int(text[4])
+    print(row)
+    print(column)
+    return format(s[row][column], "b")
     
-permutation("11100001100110010101010111111010101011001100111100011110",pc2)
+    
+#permutation("11100001100110010101010111111010101011001100111100011110",pc2)
     
         
-encrypt('0000000100100011010001010110011110001001101010111100110111101111', "0001001100110100010101110111100110011011101111001101111111110001")
+#encrypt('0000000100100011010001010110011110001001101010111100110111101111', "0001001100110100010101110111100110011011101111001101111111110001")
