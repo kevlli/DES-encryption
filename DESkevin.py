@@ -87,6 +87,15 @@ sboxes.append(s6)
 sboxes.append(s7)
 sboxes.append(s8)
 
+psbox = [16,   7,  20,  21,
+                         29,  12,  28,  17,
+                          1,  15,  23,  26,
+                          5,  18,  31,  10,
+                          2,   8,  24,  14,
+                         32,  27,   3,   9,
+                         19,  13,  30,   6,
+                         22,  11,   4,  25]
+
 def encrypt(plaintext, key):
     key1 = permutation(key, pc1)
     c0 = ""
@@ -167,11 +176,17 @@ def split(string):
     return slist
 
 def functionf(text, key):
-    #expandedtext = permutation(text, ebit)
-    ored = key ^ expandedtext
+    expandedtext = permutation(text, ebit)
+    xored = int(key,2) ^ int(expandedtext,2)
+    xored = format(xored, "b")
+
+    while (len(xored) % 6 != 0) : #adds leading 0s to first 6 bits
+        xored = '0' + xored
+    print(xored)
     compacted = ""
     for i in range(8):
         compacted += sbox(xored[i * 6: (i + 1) * 6], sboxes[i])
+    compacted = permutation(compacted, psbox)
     return compacted
     
 def sbox(text, s):
@@ -179,8 +194,10 @@ def sbox(text, s):
     column = int(text[1]) * 8 + int(text[2]) * 4 + int(text[3]) * 2 + int(text[4])
     print(row)
     print(column)
-    return format(s[row][column], "b")
-    
+    value = format(s[row][column], "b")
+    while (len(value) != 4):
+        value = '0' + value #adds prefixing 0s for some bits (i.e. 0001)
+    return value
     
 #permutation("11100001100110010101010111111010101011001100111100011110",pc2)
     
