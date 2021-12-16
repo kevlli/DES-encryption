@@ -141,12 +141,11 @@ def encrypt(plaintext, key):
     #print(plainip)
     #divide into two halve
     ipsplit = split(plainip)
-    print(ipsplit[0])
-    print(ipsplit[1])
-    #for i in range (16):
-        #ipL.append(ipR[i])
-        #ipR.append(ipL[i] ^(klist[i] ^ permutation(ipR[i], ebit)))
-        
+    ipL = [ ipsplit[0] ]
+    ipR = [ ipsplit[1] ]
+    for i in range (16):
+        print(int(ipL[i]) ^ int(functionf(ipR[i], klist[i])))
+
 
 
 def permutation(string, ptable):
@@ -180,9 +179,8 @@ def functionf(text, key):
     xored = int(key,2) ^ int(expandedtext,2)
     xored = format(xored, "b")
 
-    while (len(xored) % 6 != 0) : #adds leading 0s to first 6 bits
+    while (len(xored) != 48) : #adds leading 0s to first 6 bits
         xored = '0' + xored
-    print(xored)
     compacted = ""
     for i in range(8):
         compacted += sbox(xored[i * 6: (i + 1) * 6], sboxes[i])
@@ -192,8 +190,6 @@ def functionf(text, key):
 def sbox(text, s):
     row = int(text[0]) * 2 + int(text[5])
     column = int(text[1]) * 8 + int(text[2]) * 4 + int(text[3]) * 2 + int(text[4])
-    print(row)
-    print(column)
     value = format(s[row][column], "b")
     while (len(value) != 4):
         value = '0' + value #adds prefixing 0s for some bits (i.e. 0001)
@@ -202,4 +198,4 @@ def sbox(text, s):
 #permutation("11100001100110010101010111111010101011001100111100011110",pc2)
     
         
-#encrypt('0000000100100011010001010110011110001001101010111100110111101111', "0001001100110100010101110111100110011011101111001101111111110001")
+encrypt('0000000100100011010001010110011110001001101010111100110111101111', "0001001100110100010101110111100110011011101111001101111111110001")
