@@ -6,3 +6,5 @@
 ## Matthew
 12/14 - created split function, organized encrypt code
 12/15 - added s boxes, tested split function
+12/16 - tested code, researched binary file and bytes
+12/17 - further tested code, works compared to online des encrypter
