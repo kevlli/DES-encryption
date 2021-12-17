@@ -35,6 +35,15 @@ ebit = [32,     1,    2,     3,     4,    5,
                  24,    25,   26,    27,    28,   29,
                  28,    29,   30,    31,    32,    1]
 
+fp = [40,     8,   48,    16,    56,   24,    64,   32,
+    39,     7,   47,    15,    55,   23,    63,   31,
+    38,     6,   46,    14,    54,   22,    62,  30,
+    37,     5,   45,    13,    53,   21,    61, 29,
+    36,     4,   44,    12,    52,   20,    60,   28,
+    35,     3,   43,    11,    51,   19,    59,   27,
+    34,     2,   42,    10,    50,   18,    58,   26,
+    33,     1,   41,     9,    49,   17,    57,   25]
+
 s1 = [  [14,  4,  13,  1,   2, 15,  11,  8,   3, 10,   6, 12,   5,  9,   0,  7],
         [0, 15,   7,  4,  14,  2,  13,  1,  10,  6,  12, 11,   9,  5,   3,  8],
         [4,  1,  14,  8,  13,  6,   2, 11,  15, 12,   9,  7,   3, 10,   5, 0],
@@ -143,8 +152,19 @@ def encrypt(plaintext, key):
     ipsplit = split(plainip)
     ipL = [ ipsplit[0] ]
     ipR = [ ipsplit[1] ]
+
     for i in range (16):
-        print(int(ipL[i]) ^ int(functionf(ipR[i], klist[i])))
+        ipL.append(ipR[i])
+        ipR.append( addzeros( format(int(ipL[i],2) ^ int(functionf(ipR[i],klist[i]),2), "b") , 32) )
+
+        
+    ipRL = []
+    for j in range (17):
+        ipRL.append(ipR[j] + ipL[j])
+        
+    FinalPerm = permutation(ipRL[j], fp)
+    print(FinalPerm)
+    
 
 
 
@@ -179,8 +199,9 @@ def functionf(text, key):
     xored = int(key,2) ^ int(expandedtext,2)
     xored = format(xored, "b")
 
-    while (len(xored) != 48) : #adds leading 0s to first 6 bits
-        xored = '0' + xored
+    xored = addzeros(xored, 48)
+    #while (len(xored) != 48) : #adds leading 0s to first 6 bits
+        #xored = '0' + xored
     compacted = ""
     for i in range(8):
         compacted += sbox(xored[i * 6: (i + 1) * 6], sboxes[i])
@@ -191,9 +212,17 @@ def sbox(text, s):
     row = int(text[0]) * 2 + int(text[5])
     column = int(text[1]) * 8 + int(text[2]) * 4 + int(text[3]) * 2 + int(text[4])
     value = format(s[row][column], "b")
-    while (len(value) != 4):
-        value = '0' + value #adds prefixing 0s for some bits (i.e. 0001)
+
+    value = addzeros(value, 4)
+    #while (len(value) != 4):
+        #value = '0' + value #adds prefixing 0s for some bits (i.e. 0001)
     return value
+
+def addzeros(binarystring, length):
+    while (len(binarystring) < length):
+        binarystring = '0' + binarystring
+    return binarystring
+        
     
 #permutation("11100001100110010101010111111010101011001100111100011110",pc2)
     
