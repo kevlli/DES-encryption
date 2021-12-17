@@ -164,6 +164,7 @@ def encrypt(plaintext, key):
         
     FinalPerm = permutation(ipRL[j], fp)
     print(FinalPerm)
+    print(hex(int(FinalPerm, 2))[2:])
     
 
 
