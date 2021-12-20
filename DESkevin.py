@@ -105,7 +105,29 @@ psbox = [16,   7,  20,  21,
                          19,  13,  30,   6,
                          22,  11,   4,  25]
 
-def encrypt(plaintext, key):
+def encrypt(plaintext, key, base):
+    if (base == "hex" or base == "hexadecimal"):
+        length = len(plaintext)
+        plaintext = format(int(plaintext, 16), "b")
+        plaintext = addzeros(plaintext, length * 4)
+        length = len(key)
+        key = format(int(key, 16), "b")
+        key = addzeros(key, length * 4)
+
+    #else if (base == 'ascii' or base == 'ASCII' or base == 'text'):
+        
+    while(len(plaintext) % 64 != 0):
+        plaintext += '0'
+    for x in range( int(len(plaintext) / 64) ):
+        encrypthelper(plaintext[64 * x: 64 * (x+1)], key)
+
+    
+        
+
+
+    
+def encrypthelper(plaintext, key):
+
     key1 = permutation(key, pc1)
     c0 = ""
     d0 = ""
@@ -228,4 +250,4 @@ def addzeros(binarystring, length):
 #permutation("11100001100110010101010111111010101011001100111100011110",pc2)
     
         
-encrypt('0000000100100011010001010110011110001001101010111100110111101111', "0001001100110100010101110111100110011011101111001101111111110001")
+#encrypt('0000000100100011010001010110011110001001101010111100110111101111', "0001001100110100010101110111100110011011101111001101111111110001")
