@@ -1,4 +1,6 @@
 
+
+#pc1 = [57, 49, 41, 33, 25, 17, 9, 1, 58, 50, 42, 34, 26, 18, 10, 2, 49, 51, 43, 35, 27, 1911     3   60    52    44   36
 pc1 = [57,   49,    41,   33,    25,    17,    9,
     1,   58,    50,   42,    34,    26,   18,
     10,    2,    59,   51,    43,    35,   27,
@@ -42,10 +44,11 @@ fp = [40,     8,   48,    16,    56,   24,    64,   32,
     34,     2,   42,    10,    50,   18,    58,   26,
     33,     1,   41,     9,    49,   17,    57,   25]
 
-s1 = [ [14,  4,  13,  1,   2, 15,  11,  8,   3, 10,   6, 12,   5,  9,   0,  7],
-          [0, 15,   7,  4,  14,  2,  13,  1,  10,  6,  12, 11,   9,  5,   3,  8],
-          [4,  1,  14,  8,  13,  6,   2, 11,  15, 12,   9,  7,   3, 10,   5,  0],
-         [15, 12,   8,  2,   4,  9,   1,  7,   5, 11,   3, 14,  10,  0,   6, 13] ]
+s1 = [  [14,  4,  13,  1,   2, 15,  11,  8,   3, 10,   6, 12,   5,  9,   0,  7],
+        [0, 15,   7,  4,  14,  2,  13,  1,  10,  6,  12, 11,   9,  5,   3,  8],
+        [4,  1,  14,  8,  13,  6,   2, 11,  15, 12,   9,  7,   3, 10,   5, 0],
+        [15, 12,   8,  2,   4,  9,   1,  7,   5, 11,   3, 14,  10,  0,   6, 13]
+        ]
 
 s2 = [ [15,  1,   8, 14,   6, 11,   3,  4,   9,  7,   2, 13,  12,  0,   5, 10],
           [3, 13,   4,  7,  15,  2,   8, 14,  12,  0,   1, 10,   6,  9,  11,  5],
@@ -82,15 +85,6 @@ s8 =  [ [13,  2,   8,  4,   6, 15,  11,  1,  10,  9,   3, 14,   5,  0,  12,  7],
           [7, 11,   4,  1,   9, 12,  14,  2,   0,  6,  10, 13,  15,  3,   5,  8],
           [2,  1,  14,  7,   4, 10,   8, 13,  15, 12,   9,  0,   3,  5,   6, 11] ]
 
-psbox = [16,   7,  20,  21,
-                         29,  12,  28,  17,
-                          1,  15,  23,  26,
-                          5,  18,  31,  10,
-                          2,   8,  24,  14,
-                         32,  27,   3,   9,
-                         19,  13,  30,   6,
-                         22,  11,   4,  25]
-
 sboxes = []
 
 sboxes.append(s1)
@@ -102,20 +96,32 @@ sboxes.append(s6)
 sboxes.append(s7)
 sboxes.append(s8)
 
+psbox = [16,   7,  20,  21,
+                         29,  12,  28,  17,
+                          1,  15,  23,  26,
+                          5,  18,  31,  10,
+                          2,   8,  24,  14,
+                         32,  27,   3,   9,
+                         19,  13,  30,   6,
+                         22,  11,   4,  25]
+
 def encrypt(plaintext, key):
     key1 = permutation(key, pc1)
-    slist = split(key1)
-    c0 = slist[0]
-    d0 = slist[1]
-
-    print (c0)
-    print (d0)
+    c0 = ""
+    d0 = ""
+    for i in range(len(key1)):
+        if (i < len(key1) / 2):
+            c0 += key1[i]
+        else:
+            d0 += key1[i]
+    #print (c0)
+    #print (d0)
     
     
     klistc = []
     klistd = []
     shifts = [1,1,2,2,2,2,2,2,1,2,2,2,2,2,2,1]
-    for i in range(0, 16):
+    for i in range(16):
         if i == 0:
             klistc.append(leftshift(c0))
             klistd.append(leftshift(d0))
@@ -131,6 +137,7 @@ def encrypt(plaintext, key):
     #    print (klistd[i])
     #    print("")
 
+
     klist = []
     for i in range(16):
         subkey = klistc[i] + klistd[i]
@@ -145,14 +152,90 @@ def encrypt(plaintext, key):
     ipsplit = split(plainip)
     ipL = [ ipsplit[0] ]
     ipR = [ ipsplit[1] ]
+
     for i in range (16):
-        print(int(ipL[i]) ^ int(functionf(ipR[i], klist[i])))
+        ipL.append(ipR[i])
+        ipR.append( addzeros( format(int(ipL[i],2) ^ int(functionf(ipR[i],klist[i]),2), "b") , 32) )
+
+        
+    ipRL = []
+    for j in range (17):
+        ipRL.append(ipR[j] + ipL[j])
+        
+    FinalPerm = permutation(ipRL[j], fp)
+    print(FinalPerm)
+    print(hex(int(FinalPerm, 2))[2:])
+
+def decrypt(plaintext, key):
+    key1 = permutation(key, pc1)
+    c0 = ""
+    d0 = ""
+    for i in range(len(key1)):
+        if (i < len(key1) / 2):
+            c0 += key1[i]
+        else:
+            d0 += key1[i]
+    #print (c0)
+    #print (d0)
+
+    
+    klistc = []
+    klistd = []
+    shifts = [1,1,2,2,2,2,2,2,1,2,2,2,2,2,2,1]
+    for i in range(16):
+        if i == 0:
+            klistc.append(leftshift(c0))
+            klistd.append(leftshift(d0))
+        else:
+            klistc.append(leftshift(klistc[i - 1]))
+            klistd.append(leftshift(klistd[i - 1]))
+            if shifts[i] == 2:
+                klistc[i] = leftshift(klistc[i])
+                klistd[i] = leftshift(klistd[i])
+    #for i in range(len(klistc)):
+    #    print (klistc[i])
+    #    print ("")
+    #    print (klistd[i])
+    #    print("")
+
+    #to decrypt, use encryption method but reverse order of keys
+    klistc = reverselist(klistc)
+    klistd = reverselist(klistd)    
+
+    klist = []
+    for i in range(16):
+        subkey = klistc[i] + klistd[i]
+        subkey = permutation(subkey, pc2)
+        klist.append(subkey)
+        #print(klist[i])
+
+    #Step 2
+    plainip = permutation(plaintext, ip)
+    #print(plainip)
+    #divide into two halve
+    ipsplit = split(plainip)
+    ipL = [ ipsplit[0] ]
+    ipR = [ ipsplit[1] ]
+
+    for i in range (16):
+        ipL.append(ipR[i])
+        ipR.append( addzeros( format(int(ipL[i],2) ^ int(functionf(ipR[i],klist[i]),2), "b") , 32) )
+
+        
+    ipRL = []
+    for j in range (17):
+        ipRL.append(ipR[j] + ipL[j])
+        
+    FinalPerm = permutation(ipRL[j], fp)
+    print(FinalPerm)
+    print(hex(int(FinalPerm, 2))[2:])
+    
 
 
 
 def permutation(string, ptable):
     pstring = ""
-    for i in range(0,len(ptable)):
+    for i in range(len(ptable)):
         #python starts at 0, table starts at 1, so subtract 1
         pstring += string[ptable[i] - 1]
     return pstring
@@ -181,8 +264,9 @@ def functionf(text, key):
     xored = int(key,2) ^ int(expandedtext,2)
     xored = format(xored, "b")
 
-    while (len(xored) != 48) : #adds leading 0s to first 6 bits
-        xored = '0' + xored
+    xored = addzeros(xored, 48)
+    #while (len(xored) != 48) : #adds leading 0s to first 6 bits
+        #xored = '0' + xored
     compacted = ""
     for i in range(8):
         compacted += sbox(xored[i * 6: (i + 1) * 6], sboxes[i])
@@ -193,10 +277,26 @@ def sbox(text, s):
     row = int(text[0]) * 2 + int(text[5])
     column = int(text[1]) * 8 + int(text[2]) * 4 + int(text[3]) * 2 + int(text[4])
     value = format(s[row][column], "b")
-    while (len(value) != 4):
-        value = '0' + value #adds prefixing 0s for some bits (i.e. 0001)
+
+    value = addzeros(value, 4)
+    #while (len(value) != 4):
+        #value = '0' + value #adds prefixing 0s for some bits (i.e. 0001)
     return value
 
+def addzeros(binarystring, length):
+    while (len(binarystring) < length):
+        binarystring = '0' + binarystring
+    return binarystring
 
-
-#encrypt("0001001100110100010101110111100110011011101111001101111111110001", "0001001100110100010101110111100110011011101111001101111111110001")
+def reverselist(keylist):
+    x = []
+    for i in range(0, len(keylist)):
+        x.append(keylist[len(keylist) - i - 1])
+    return x
+        
+    
+#permutation("11100001100110010101010111111010101011001100111100011110",pc2)
+    
+        
+encrypt('0000000100100011010001010110011110001001101010111100110111101111', "0001001100110100010101110111100110011011101111001101111111110001")
+decrypt('1000010111101000000100110101010000001111000010101011010000000101', "0001001100110100010101110111100110011011101111001101111111110001")
