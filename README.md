@@ -12,3 +12,4 @@
 12/16 - tested code, researched binary file and bytes
 12/17 - further tested code, works compared to online des encrypter
 12/20 - reverselist function and decrypt function
+12/21 - worked on presentation
