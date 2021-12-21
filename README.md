@@ -5,6 +5,7 @@
 12/16 - Finished f function.
 12/17 - Finished encryption function for binary string. Outputs binary and hex string.
 12/20 - Added hex string input. Input string can be any bit length now.
+12/21 - Attempted to implement for binary file. 
 ## Matthew
 12/14 - created split function, organized encrypt code
 12/15 - added s boxes, tested split function

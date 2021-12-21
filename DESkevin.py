@@ -1,4 +1,4 @@
-
+import sys
 
 #pc1 = [57, 49, 41, 33, 25, 17, 9, 1, 58, 50, 42, 34, 26, 18, 10, 2, 49, 51, 43, 35, 27, 1911     3   60    52    44   36
 pc1 = [57,   49,    41,   33,    25,    17,    9,
@@ -228,7 +228,7 @@ def functionf(text, key):
     compacted = ""
     for i in range(8):
         compacted += sbox(xored[i * 6: (i + 1) * 6], sboxes[i])
-    compacted = permutation(compacted, psbox)
+    compacted = permutation(compacted,psbox)
     return compacted
     
 def sbox(text, s):
@@ -245,7 +245,10 @@ def addzeros(binarystring, length):
     while (len(binarystring) < length):
         binarystring = '0' + binarystring
     return binarystring
-        
+
+inp = open("plaintext.txt", "rb").read()
+for x in range(len(inp)):
+    print(inp[x])
     
 #permutation("11100001100110010101010111111010101011001100111100011110",pc2)
     
