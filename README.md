@@ -15,3 +15,5 @@
 12/20 - reverselist function and decrypt function
 12/21 - worked on presentation
 12/22 - continued working on presentation
+12/23 - continued working on presentation
+12/30 - continued working on presentation
