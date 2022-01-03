@@ -1,4 +1,10 @@
 # cyberfinal
+Our project is a code to encrypt and decrypt messages using the DES algorithm.
+To encrypt, the command is encrypt("plaintext","key","hex or binary or ascii")
+To decrypt, the comamnd is decrypt("encodedmessage","key","hex or binary or ascii")
+
+presentation: https://docs.google.com/presentation/d/1s9n3f0JcvTtuv6B5vm7l-rONFPIkKwG611d47zlSRZs/edit?usp=sharing
+
 ## Kevin
 12/14 - Created 2nd file for easier simultaneous work, merged for loops together, added to google form.
 12/15 - Created sbox function, unfinished f function
@@ -17,3 +23,4 @@
 12/22 - continued working on presentation
 12/23 - continued working on presentation
 12/30 - continued working on presentation
+1/3/22 - worked and tested on code, updated presentation, readme
