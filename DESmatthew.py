@@ -1,4 +1,4 @@
-
+import sys
 
 #pc1 = [57, 49, 41, 33, 25, 17, 9, 1, 58, 50, 42, 34, 26, 18, 10, 2, 49, 51, 43, 35, 27, 1911     3   60    52    44   36
 pc1 = [57,   49,    41,   33,    25,    17,    9,
@@ -105,7 +105,29 @@ psbox = [16,   7,  20,  21,
                          19,  13,  30,   6,
                          22,  11,   4,  25]
 
-def encrypt(plaintext, key):
+def encrypt(plaintext, key, base):
+    if (base == "hex" or base == "hexadecimal"):
+        length = len(plaintext)
+        plaintext = format(int(plaintext, 16), "b")
+        plaintext = addzeros(plaintext, length * 4)
+        length = len(key)
+        key = format(int(key, 16), "b")
+        key = addzeros(key, length * 4)
+
+    #else if (base == 'ascii' or base == 'ASCII' or base == 'text'):
+        
+    while(len(plaintext) % 64 != 0):
+        plaintext += '0'
+    for x in range( int(len(plaintext) / 64) ):
+        encrypthelper(plaintext[64 * x: 64 * (x+1)], key)
+
+    
+        
+
+
+    
+def encrypthelper(plaintext, key):
+
     key1 = permutation(key, pc1)
     c0 = ""
     d0 = ""
@@ -164,9 +186,32 @@ def encrypt(plaintext, key):
         
     FinalPerm = permutation(ipRL[j], fp)
     print(FinalPerm)
-    print(hex(int(FinalPerm, 2))[2:])
+    #addzeros makes sure that the starting zero is not removed
+    print(addzeros((hex(int(FinalPerm, 2))[2:]),16))
 
-def decrypt(plaintext, key):
+def decrypt(plaintext, key, base):
+    if (base == "hex" or base == "hexadecimal"):
+        length = len(plaintext)
+        plaintext = format(int(plaintext, 16), "b")
+        plaintext = addzeros(plaintext, length * 4)
+        length = len(key)
+        key = format(int(key, 16), "b")
+        key = addzeros(key, length * 4)
+
+    #else if (base == 'ascii' or base == 'ASCII' or base == 'text'):
+        
+    while(len(plaintext) % 64 != 0):
+        plaintext += '0'
+    for x in range( int(len(plaintext) / 64) ):
+        decrypthelper(plaintext[64 * x: 64 * (x+1)], key)
+
+    
+        
+
+
+    
+def decrypthelper(plaintext, key):
+
     key1 = permutation(key, pc1)
     c0 = ""
     d0 = ""
@@ -177,7 +222,7 @@ def decrypt(plaintext, key):
             d0 += key1[i]
     #print (c0)
     #print (d0)
-
+    
     
     klistc = []
     klistd = []
@@ -197,10 +242,9 @@ def decrypt(plaintext, key):
     #    print ("")
     #    print (klistd[i])
     #    print("")
-
-    #to decrypt, use encryption method but reverse order of keys
     klistc = reverselist(klistc)
-    klistd = reverselist(klistd)    
+    klistd = reverselist(klistd)
+    
 
     klist = []
     for i in range(16):
@@ -228,8 +272,8 @@ def decrypt(plaintext, key):
         
     FinalPerm = permutation(ipRL[j], fp)
     print(FinalPerm)
-    print(hex(int(FinalPerm, 2))[2:])
-    
+    #addzeros makes sure that the starting zero is not removed
+    print(addzeros((hex(int(FinalPerm, 2))[2:]),16))
 
 
 
@@ -270,7 +314,7 @@ def functionf(text, key):
     compacted = ""
     for i in range(8):
         compacted += sbox(xored[i * 6: (i + 1) * 6], sboxes[i])
-    compacted = permutation(compacted, psbox)
+    compacted = permutation(compacted,psbox)
     return compacted
     
 def sbox(text, s):
@@ -293,10 +337,11 @@ def reverselist(keylist):
     for i in range(0, len(keylist)):
         x.append(keylist[len(keylist) - i - 1])
     return x
-        
-    
-#permutation("11100001100110010101010111111010101011001100111100011110",pc2)
-    
-        
-encrypt('0000000100100011010001010110011110001001101010111100110111101111', "0001001100110100010101110111100110011011101111001101111111110001")
-decrypt('1000010111101000000100110101010000001111000010101011010000000101', "0001001100110100010101110111100110011011101111001101111111110001")
+
+inp = open("plaintext.txt", "rb").read()
+for x in range(len(inp)):
+    print(inp[x])
+
+encrypt("0123456789ABCDEF","133457799BBCDFF1","hex")
+decrypt("85e813540f0ab405","133457799BBCDFF1","hex")
+
