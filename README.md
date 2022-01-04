@@ -1,8 +1,8 @@
 # cyberfinal
 Our project is a code to encrypt and decrypt messages using the DES algorithm.  For this project, we learned the many different methods of cryptography used in DES encryption and decryption, and the importance of DES.
 
-To encrypt, the command is encrypt("plaintext","key","hex or binary or ascii").
-To decrypt, the command is decrypt("encodedmessage","key","hex or binary or ascii").
+To encrypt, the command is encrypt("plaintext","key","hex or binary").
+To decrypt, the command is decrypt("encodedmessage","key","hex or binary").
 
 presentation: https://docs.google.com/presentation/d/1s9n3f0JcvTtuv6B5vm7l-rONFPIkKwG611d47zlSRZs/edit?usp=sharing
 
